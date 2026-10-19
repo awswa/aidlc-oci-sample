@@ -6,10 +6,12 @@ This repository provides a decision-first, spec-driven workflow for workloads bu
 
 ## Start a workload
 
-Open the repository in Codex and describe the workload you want to build or change. For a new workload, use a prompt like this:
+[`usecase.md`](usecase.md) is the workload brief and starting point for application development. It contains a sample workload with goals, users, capabilities, requirements, outcomes, architecture, and technology choices. Before using this repository for a different workload, adapt `usecase.md`: replace the sample organization, product, goals, scope, and assumptions, and fill in or keep unresolved its placeholders and `[CONFIRM]` items.
+
+Open the repository in Codex and send this prompt:
 
 ```text
-I want to build [describe the workload]. Read AGENTS.md and follow its spec-driven workflow. Inspect the repository and begin with the Requirements decision checkpoint only. Create only the requirements decision file for this workload, then stop for my review. Do not generate the requirements specification or write implementation code yet. Ask about material unknowns instead of inventing workload details.
+Build the application described in usecase.md. Read usecase.md completely and follow the workflow in AGENTS.md. Treat placeholders and [CONFIRM] items as unresolved; preserve the stated workload context and ask about material unknowns. Inspect the repository and begin with the Requirements decision checkpoint only. Create only the requirements decision file required by AGENTS.md, then stop for my review. Do not generate requirements.md or write application code yet.
 ```
 
 ## Work through the phases
