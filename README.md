@@ -1,31 +1,25 @@
-# Start Building with Codex
+# OCI AIDLC Baseline
 
-Use this README as the developer entry point for starting application development in this repository. Codex should use [AGENTS.md](AGENTS.md) for the required spec-driven workflow and [usecase.md](usecase.md) for the customer’s use case and requirements. This README explains how to trigger and continue that workflow; it does not replace either source.
+This repository provides a decision-first, spec-driven workflow for workloads built on Oracle Cloud Infrastructure (OCI). Use it to standardize requirements, architecture, planning, and implementation across application, platform, and infrastructure work.
 
-## Start the development workflow
+[AGENTS.md](AGENTS.md) is the canonical workflow and guardrail reference. The OCI skill collection in [`.agents/skills/oci/`](.agents/skills/oci/SKILL.md) provides service-specific guidance when OCI implementation work begins.
 
-Open this repository in Codex and send this prompt:
+## Start a workload
+
+Open the repository in Codex and describe the workload you want to build or change. For a new workload, use a prompt like this:
 
 ```text
-Build the application based on /Users/janghan/dev/aidlc-decision-oci/usecase.md and /Users/janghan/dev/aidlc-decision-oci/README.md. Read /Users/janghan/dev/aidlc-decision-oci/AGENTS.md and follow its spec-driven workflow. Read usecase.md completely, inspect the existing repository, and begin with the requirements decision checkpoint only. Create only the requirements decision file required by AGENTS.md, then stop and ask me to review it. Do not generate requirements.md or write application code yet. Preserve the customer's stated requirements and ask only about material unknowns or conflicts.
+I want to build [describe the workload]. Read AGENTS.md and follow its spec-driven workflow. Inspect the repository and begin with the Requirements decision checkpoint only. Create only the requirements decision file for this workload, then stop for my review. Do not generate the requirements specification or write implementation code yet. Ask about material unknowns instead of inventing workload details.
 ```
 
-Codex loads `AGENTS.md` as repository guidance. The prompt names all three files so the application request, customer context, and workflow are explicit.
+## Work through the phases
 
-## Continue phase by phase
+The workflow proceeds through Requirements, Design, Tasks, and Implementation. Each specification phase has a decision file that must be reviewed before its corresponding specification is written. Complete and review one phase at a time, as described in `AGENTS.md`.
 
-After Codex creates the requirements decision file, review it and fill in the answers. Then ask Codex to generate the requirements document:
-
-```text
-I completed the requirements decisions. Generate requirements.md using my answers and usecase.md, following AGENTS.md. Stop after the requirements phase.
-```
-
-After reviewing and approving `requirements.md`, ask Codex to start the design phase. It should create the design decision file and stop for your input. Once you complete that file, ask it to generate `design.md`. Repeat the same sequence for the tasks phase and `tasks.md`.
-
-The expected spec layout is:
+Specifications live under a workload-specific directory:
 
 ```text
-specs/<application-name>/
+specs/<workload-name>/
   decisions/
     _decisions-requirements.md
     _decisions-design.md
@@ -35,26 +29,10 @@ specs/<application-name>/
   tasks.md
 ```
 
-Complete one phase at a time. A decision file and its corresponding final spec are separate steps, as defined in `AGENTS.md`.
-
-## Request implementation
-
-Once the requirements, design, and tasks are complete and reviewed, request implementation explicitly. For example:
-
-```text
-Implement the approved task IDs [list IDs] from specs/<application-name>/tasks.md. Follow AGENTS.md and usecase.md. Run the verification steps listed for these tasks and report the results. Do not deploy or make changes in OCI.
-```
-
-Codex should keep implementation traceable to the approved specs. Writing application or infrastructure code does not authorize deploying it to OCI; request deployment separately if needed.
+Request implementation explicitly after the requirements, design, and tasks are complete and accepted. Writing infrastructure code does not authorize changes to an OCI tenancy; deployment requires a separate explicit request.
 
 ## OCI implementation skills
 
-The Oracle OCI skill collection is included in [`.agents/skills/oci/`](.agents/skills/oci/SKILL.md). Codex can select the `oci` skill for OCI work, or you can invoke it explicitly with `$oci`. Start with its routing table and read the specialist skill that matches the service being implemented. Paths in the upstream skill text such as `oci/functions/...` refer to files under `.agents/skills/oci/` in this repository. The collection is sourced from [Oracle Skills for OCI](https://github.com/oracle/skills/tree/main/oci), and its license is included at [`.agents/skills/oci/LICENSE.txt`](.agents/skills/oci/LICENSE.txt).
+The Oracle OCI skill collection is included in [`.agents/skills/oci/`](.agents/skills/oci/SKILL.md). Start with its routing table and use the smallest matching specialist skill for service-specific implementation or troubleshooting. Paths in upstream skill text such as `oci/functions/...` refer to files under `.agents/skills/oci/` in this repository.
 
-Using an OCI skill does not authorize cloud changes. Follow the deployment gate and approval rules in [AGENTS.md](AGENTS.md) before running commands that create or modify OCI resources.
-
-## Source files
-
-- [AGENTS.md](AGENTS.md) defines the workflow, phase gates, OCI guardrails, and implementation rules.
-- [usecase.md](usecase.md) contains the customer’s use case and requirements. Use it as product context throughout requirements, design, tasks, and implementation.
-- [README.md](README.md) provides the prompts and steps developers use to start and continue the workflow.
+The collection is sourced from [Oracle Skills for OCI](https://github.com/oracle/skills/tree/main/oci), and its license is included at [`.agents/skills/oci/LICENSE.txt`](.agents/skills/oci/LICENSE.txt). Using a skill does not authorize cloud changes. Follow the deployment and approval rules in `AGENTS.md` before running commands that create or modify OCI resources.
